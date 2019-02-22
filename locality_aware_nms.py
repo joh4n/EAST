@@ -12,12 +12,12 @@ def intersection(g, p):
     if union == 0:
         return 0
     else:
-        return inter/union
+        return inter / union
 
 
 def weighted_merge(g, p):
-    g[:8] = (g[8] * g[:8] + p[8] * p[:8])/(g[8] + p[8])
-    g[8] = (g[8] + p[8])
+    g[:8] = (g[8] * g[:8] + p[8] * p[:8]) / (g[8] + p[8])
+    g[8] = g[8] + p[8]
     return g
 
 
@@ -30,17 +30,17 @@ def standard_nms(S, thres):
         ovr = np.array([intersection(S[i], S[t]) for t in order[1:]])
 
         inds = np.where(ovr <= thres)[0]
-        order = order[inds+1]
+        order = order[inds + 1]
 
     return S[keep]
 
 
 def nms_locality(polys, thres=0.3):
-    '''
+    """
     locality aware nms of EAST
     :param polys: a N*9 numpy array. first 8 coordinates, then prob
     :return: boxes after nms
-    '''
+    """
     S = []
     p = None
     for g in polys:
@@ -58,7 +58,6 @@ def nms_locality(polys, thres=0.3):
     return standard_nms(np.array(S), thres)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # 343,350,448,135,474,143,369,359
-    print(Polygon(np.array([[343, 350], [448, 135],
-                            [474, 143], [369, 359]])).area)
+    print(Polygon(np.array([[343, 350], [448, 135], [474, 143], [369, 359]])).area)
